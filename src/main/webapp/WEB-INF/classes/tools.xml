@@ -1,0 +1,6 @@
+<tools>
+    <toolbox scope="application">
+        <tool key="datetool" class="org.apache.velocity.tools.generic.DateTool"/>
+        <tool key="entitywebapi" class="com.jbent.peoplecentral.velocity.viewtool.EntityViewTool"/>
+    </toolbox>
+</tools>

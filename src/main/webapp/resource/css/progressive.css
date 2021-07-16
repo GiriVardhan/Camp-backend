@@ -1,0 +1,23 @@
+/* 
+Styles that provide "Progressive Enrichment" 
+via CSS3 and vendor-specific hooks
+*/
+
+/* primary navigation styles
+--------------------------------------------- */
+#navPrimaryWrapper{
+	/* rounded corners */
+	-webkit-border-top-left-radius:0.4em;
+	-webkit-border-top-right-radius:0.4em;
+	-webkit-border-bottom-left-radius:0.4em;
+	-webkit-border-bottom-right-radius:0.4em;
+	-moz-border-radius-topleft:0.4em;
+	-moz-border-radius-topright:0.4em;
+	-moz-border-radius-bottomleft:0.4em;
+	-moz-border-radius-bottomright:0.4em;
+}
+#navPrimaryWrapper:hover{
+	/* box shadow */
+	-webkit-box-shadow:rgba(0,0,0,0.2) 0 2px 5px;
+	-moz-box-shadow:rgba(0,0,0,0.2) 0 2px 5px;
+}	

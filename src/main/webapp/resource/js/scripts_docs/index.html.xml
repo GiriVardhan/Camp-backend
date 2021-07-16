@@ -1,0 +1,10 @@
+<?xml-stylesheet type="text/xsl" href="docs.xsl"?><javascript fileName="base.js">
+    <function name="positionAndRenderLightbox" scope="static" constructor="false" deprecated="false" private="false" protected="false" ignored="true" internal="false" type="Function">
+        <property name="top" scope="static" constructor="false" deprecated="false" private="false" protected="false" ignored="true" internal="false" type="Object">
+        </property>
+        <property name="left" scope="static" constructor="false" deprecated="false" private="false" protected="false" ignored="true" internal="false" type="Object">
+        </property>
+    </function>
+    <function name="removeAndEmptyLightbox" scope="static" constructor="false" deprecated="false" private="false" protected="false" ignored="true" internal="false" type="Function">
+    </function>
+</javascript>

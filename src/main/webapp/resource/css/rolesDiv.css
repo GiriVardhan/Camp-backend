@@ -1,0 +1,53 @@
+
+.assignedUserContainer {
+  /*background-color: #ffcc99;*/
+  border:1;
+  width: 400px;
+  margin-top: -128px;
+  margin-left: 281px;
+}
+.assignedRolesContainer {
+  /*background-color: #ffcc99;*/
+  border:1;
+  width: 400px;
+  margin-top: -128px;
+  margin-left: 281px;
+}
+.rightImage{
+/*background-color: #6666cc;*/
+width: 30px;
+margin-left: 150px;
+margin-top: -20px;
+}
+
+#leftcolumn { width: 300px;  float: left}
+#rightcolumn { width: 80px; float: right}
+
+.lbassignedRolesContainer {
+  /*background-color: #ffcc99;*/
+  border:1;
+  width: 400px;
+  margin-top: -45px;
+  
+}
+.lbassignedUsersContainer {
+  /*background-color: #ffcc99;*/
+  border:1;
+  width: 400px;
+  margin-top: -45px;
+  
+}
+.avilableRoles, .avilableUsers{
+	float:left;
+	width: 400px;
+	padding-top: 10px;
+}
+.assignedRoles, .assignedUsers{
+	float:left;
+	width: 400px;
+	padding-top: 10px;
+}
+
+.btn-cst{
+	margin-left: 10px;
+}

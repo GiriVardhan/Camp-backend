@@ -1,0 +1,58 @@
+		
+		.group:after {
+			content: "."; 
+		    display: block; 
+		    height: 0; 
+		    clear: both; 
+		    visibility: hidden;
+		}
+		fieldset {
+			margin:0 0 1.0em 0;
+			padding:0;
+			border:none;
+		}
+		.bottomBorder {
+			padding:0 0 0.75em 0;
+			border-bottom:1px solid #ccc;
+		}
+		#queryBuilderWizard, 
+		#savedSearches, 
+		#searchStart,
+		#savedSearch,
+		#queryWizardPermission,
+		#queryWizardSaveRun, 
+		#howToBuildQuery, 
+		#queryBuilderAdvanced {
+			/* padding: 1.5em 1.75em; */
+			border:0px solid #ccc;
+		}
+		.queryBuilderRow {
+			float: left;
+			width: 100%;
+		}
+		.queryBuilderConditionColOne {
+			float: left;
+			width: 50%;
+		}
+		.queryBuilderConditionColTwo {
+			float: left;
+			width: 30%;
+		}
+		.queryBuilderConditionColThree {
+			float: left;
+			width: 30%;
+		}
+		.queryBuilderConditionColFour {
+			float: left;
+			width: 10%;
+		}
+		#queryBuilderAdvanced textarea {
+			float:left;
+			width:100%;
+			height: 5em;
+			border: 0px solid #ccc;
+		}
+		
+		#pagination{
+			float: right;
+		}

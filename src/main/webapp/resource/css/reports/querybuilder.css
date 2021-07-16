@@ -1,0 +1,25 @@
+#upper {
+  background-color: #ffcc99;
+  position: relative;
+  float: left;
+}
+#middle {
+  background-color: #6666cc;
+  float: left;
+  position: relative;
+}
+#bottom {
+  background-color: #cc6600;
+  float: left;
+  position: relative;
+}
+#horline {
+  border-width: 0px;
+  background-color: silver;
+  width: 91%;
+}
+#criteriabox {
+  position: relative;
+  background-color: #ffccff;
+  height: 50px;
+}

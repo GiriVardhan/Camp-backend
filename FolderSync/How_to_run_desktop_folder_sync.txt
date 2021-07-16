@@ -1,0 +1,26 @@
+CocoaOwl Desktop Folder Sync is a java program that needs to run on client machine.
+
+Right now, this client program assumes that the CocoaOwl server is running at localhost with port number 8080 and client is testclient.
+
+Client program dependent jars can be found under Libs directory.
+
+Running the client program will create a "CocoaOwl" directory in client machine under user's home directory and synchronizes CocoaOwl folders and files there.
+
+Note : Folder and file names must be AlphaNumeric only, no special characters allowed as of now.
+
+
+As this feature need updates in CocoaOwl server DB, this has to be tested on a CocoaOwl database setup done after 20-Feb-2016.
+
+
+
+
+
+
+In phase 1 client program is able to synchronize the below cases :
+
+
+Case 1 : New folders, new subfolders, new files on server to client.
+Case 2 : New folders, new subfolders, new files on client to server.
+Case 3 : Delete Folders, subfolders , files on server to client.
+Case 4 : Delete Folders, subfolders, files on client to server.
+Case 5 : Edit files on client to server, as files are not editable on server as of now.

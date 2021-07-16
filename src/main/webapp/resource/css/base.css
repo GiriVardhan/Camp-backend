@@ -1,0 +1,396 @@
+/* basic 
+--------------------------------------------- */
+/* body {
+	font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Helvetica, Arial, sans-serif;
+	color:#333;
+	font-size: 62.5%;
+	font-size: small;
+	background: #fff;
+}
+a:link, 
+a:visited {
+	color: #00f;
+	text-decoration: none;
+}
+a:hover {
+	color: #00f;
+	text-decoration: underline;
+}
+hr, 
+.hide {
+	display: none;
+}
+a img {
+	border: none;
+}
+.error {
+	color:#f00;
+}
+
+self-clear floats
+.group:after {
+	content: "."; 
+    display: block; 
+    height: 0; 
+    clear: both; 
+    visibility: hidden;
+}
+
+page structure 
+---------------------------------------------
+#wrap {
+	border: 1px solid #ccc;
+	background: #fefefe;
+	width: 1000px;
+	margin: 0 auto;
+	padding:1.0% 0;
+}
+.main {
+	float: left;
+	width: 100%;
+	padding:0 0 2.5% 0;
+}
+#footer {
+	border-top: 1px solid #ccc;
+	background: #fefefe;
+	width: 1000px;
+	margin: 0 auto;
+	padding:2.5% 0 1.0% 0;
+	clear: both;
+}
+.inner {
+	padding:0 2.5%;
+	position:relative;
+}
+
+header 
+---------------------------------------------
+#header {
+	border: 1px solid #ccc;
+	background: #fefefe;
+	width: 1000px;
+	margin: 0 auto;
+	padding:1.0% 0 1.0% 0;
+	position: relative;
+}
+#headerTools {
+	border: 1px solid #ccc;
+	float:right;
+}
+#search {
+	float: left;
+}
+#theBox {
+	float: right;
+	margin-left: 2.0em; 	
+}
+#session {
+	float:right;
+	clear:both;
+	margin:1.0em 0 0 0;
+}
+.logoutAs {
+	display:none;
+}
+#searchWithinWrapper {
+	display:block;
+}
+#searchWithinWrapper label {
+	display:block;
+}
+#searchTypesWrapper {
+	position:relative;
+}
+#searchTypes {
+	position:absolute;
+	left:0;
+	top:0;
+	background:#fefefe;
+}
+
+navigation
+---------------------------------------------	
+#navPrimaryPositioner {
+	position:absolute;
+	left:2.5%;
+}
+#navPrimaryWrapper {
+	float:left;
+	padding:1.0em 0 1.25em 1.0em;
+	background:#fefefe;
+	border:1px solid #ccc;
+}
+#navPrimaryMenuWrapper {
+	float:left;
+	display:none;
+}
+#home {
+	float:left;
+	padding-right:1.0em;
+}
+.navPrimaryMenu {
+	float:left;
+	border-left:1px solid #ccc;
+}
+.navPrimaryMenu.first {
+}
+.navPrimaryMenu a {
+	display:block;
+	padding:0 1.0em 0 0.25em;
+}
+
+
+main
+---------------------------------------------
+
+
+
+footer 
+---------------------------------------------
+#footer a {}
+#footer ul.footlinks {
+	float: right;
+}
+#footer ul.footlinks li {
+	float: left;
+	border-right: 1px solid #ccc;
+	padding: 0 1.0em 0 1.0em;
+}
+#footer ul.footlinks li.last {
+	border: none;
+	padding-right: 0;
+}
+.copyright {
+	float: left;
+}
+ */
+/* sections
+--------------------------------------------- */
+
+/* forms
+--------------------------------------------- */
+form .group {
+	margin: 0 0 1.25em 0;
+}
+.showDojo #dojoEntityFilteringSelectWrapper, 
+.showDojo #dojoEntityAttributeFilteringSelectWrapper {
+	display: block;
+}
+
+/* manage.jsp
+--------------------------------------------- */
+#attributeTemplates {
+	display: none;
+}
+#addAttribute {
+	display: none;
+}
+#dojoEntityFilteringSelectWrapper, 
+#dojoEntityAttributeFilteringSelectWrapper {
+	display: none;
+}
+#rolePermissionsHeader {
+	float:left;
+	width:100%;
+	padding:0 0 0.5em 0;
+	margin:0 0 0.5em 0;
+	border-bottom:1px solid #ccc;
+	font-weight:bold;
+}
+.displayRow{
+	display: none;
+}
+.rolePermissions {
+	float:left;
+	width:100%;
+	padding:0 0 0.5em 0;
+	margin:0 0 0.5em 0;
+	border-bottom:1px dotted #ddd;
+}
+#rolePermissionsHeader .roleName, 
+.rolePermissions .roleName {
+	float:left;
+	width:39%;
+}
+#rolePermissionsHeader .rolePermission, 
+.rolePermissions .rolePermission {
+	float:left;
+	width:20%;
+}
+#rolePermissionsHeader .roleCreateNew, 
+.rolePermissions .roleCreateNew {
+	float:left;
+	width:20%;
+}
+#rolePermissionsHeader .roleRemove, 
+.rolePermissions .roleRemove {
+	float:left;
+	width:20%;
+}
+
+/* search.jsp
+--------------------------------------------- */
+.searchResultGridWrapper {
+	border:1px solid #ccc;
+	width:100%;
+	margin:0 0 1.5em 0;
+}
+.searchResultGridHeader {
+	width:100%;
+	border-bottom:1px solid #eee;
+}
+.searchResultGridTitle {
+	float:left;
+	width:85%;
+}
+.searchResultGridToggleWrapper {
+	float:right;
+	width:14%;
+	text-align:right;
+}
+.searchResultGridToggle {
+	
+}
+.searchResultGrid {
+	
+}
+
+/* file attribute
+--------------------------------------------- */
+#fileAttWrap {
+    border: 1px solid #ccc;
+}
+#fileAttTitleBar {
+    border-bottom: 1px solid #ccc;
+    position: relative;
+    width: 100%;
+}
+#fileAttTitle {
+    float: left;
+    padding: 2%;
+}
+#fileAttNavWrap {
+    float: right;
+    padding: 2% 0;
+}
+#fileAttNav {
+    margin: 0;
+    padding: 0;
+    float: left;
+    list-style-type: none;
+}
+#fileAttNav li {
+    float: left;
+}
+#fileAttNav a {
+    padding: 1.5em;
+}
+#fileAttCanvasWrap {
+    border-bottom: 1px solid #ccc;
+}
+#fileAttFileSelector {
+    float: left;
+    width: 27%;
+    border-right: 1px solid #ccc;
+    padding: 2%;
+}
+#fileAttFileCanvas {
+    float: right;
+    width: 64%;
+    padding: 2%;
+}
+#fileAttFileUploader {
+    float: left;
+    width: 27%;
+    border-right: 1px solid #ccc;
+    padding: 2%;
+}
+#fileAttFileInfo {
+    float: right;
+    width: 64%;
+    padding: 2%;
+}
+
+/* query builder wizard
+--------------------------------------------- */
+fieldset {
+    margin: 0 0 1.0em 0;
+    padding: 0;
+    border: none;
+}
+.bottomBorder {
+    padding: 0 0 0.75em 0;
+    border-bottom: 1px solid #ccc;
+}
+#queryBuilderWizard, 
+#savedSearches, 
+#searchStart, 
+#howToBuildQuery, 
+#queryBuilderAdvanced {
+    /* padding: 1.5em 1.75em; */
+    border: 0px solid #ccc;
+}
+.queryBuilderRow {
+    float: left;
+    width: 100%;
+}
+.queryBuilderConditionColOne {
+    float: left;
+    width: 25%;
+}
+.queryBuilderConditionColTwo {
+    float: left;
+    width: 25%;
+}
+.queryBuilderConditionColThree {
+    float: left;
+    width: 25%;
+}
+.queryBuilderConditionColFour {
+    float: left;
+    width: 15%;
+}
+#queryBuilderAdvanced textarea {
+    float: left;
+    width: 100%;
+    height: 5em;
+    border: 0px solid #ccc;
+}
+
+/* dashboard mini
+--------------------------------------------- */
+#dashboardMiniSavedReports, 
+#dashboardMiniSavedSearches, 
+#dashboardMiniWorkStream, 
+#dashboardMiniProfile {
+	margin:1.5em;
+	border:1px solid #ccc;
+} 
+#dashboardMiniWorkStream table th, 
+#dashboardMiniWorkStream table td {
+	padding:1.0em;
+}
+
+/* temporary
+--------------------------------------------- 
+#regexIdWrapper {
+	display: none;
+}*/
+
+
+/*---------- Html Table Row Filter---------------*/
+.tdRoleName {
+width: 355px;
+}
+.tdRolePermission {
+width: 180px; 
+height: 20px;
+}
+.tdRoleCreateNew {
+width: 180px;
+height: 20px; }
+.tdRoleRemove {
+}
+
+
+

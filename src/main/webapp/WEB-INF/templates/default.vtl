@@ -1,0 +1,23 @@
+<div>DATE TEST : $date</div>
+<div>TO STRING OF ATTRIBUTES : $attributes</div>
+<div>TRYING TO SPIT OUT username directly : ${Username}GOES HERE</div>
+<div>MATH TOOL EXAMPLE : $math.add(2,2)</div>
+
+
+
+<p>	
+	TO STRING OF ENTITY : $entity
+</p>
+
+<ul>
+	#foreach($key in $velocityContext.keySet())
+		<li>$key</li>
+	#end
+</ul>
+
+<ul>
+	#foreach ($att in $attributes)
+		<li>$att</li>
+		<hr style="display:block;" />
+	#end
+</ul>

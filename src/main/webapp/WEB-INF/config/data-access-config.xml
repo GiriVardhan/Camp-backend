@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<!--
+		Scans within the base package of the application for @Components to
+		configure as beans <property name="url"
+		value="jdbc:postgresql://localhost/people" />
+	-->
+	<context:component-scan base-package="com.jbent.peoplecentral.model" />
+
+	<bean id="dataSourceReal" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="org.postgresql.Driver" />
+		<property name="url" value="jdbc:postgresql://localhost:5432/campdata" />
+		<property name="username" value="postgres" />
+		<property name="password" value="postgres" />  <!-- for local -->
+	</bean>
+	
+
+	<!-- Path to save uploaded files -->
+	<bean id="fileUploadHelpUtil"
+		class="com.jbent.peoplecentral.util.FileUploadHelpImpl">
+		<property name="temporyPath" value="/Users/jasontesser/dev/tempory" />
+		<property name="filePath" value="/clients/images" />
+	</bean>
+
+	<bean id="dataSourceWrapper" class="com.jbent.peoplecentral.util.sql.DataSourceWrapper">
+		<property name="targetDataSource" ref="dataSourceReal" />		
+	</bean>
+	
+	
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy">
+		<property name="targetDataSource" ref="dataSourceWrapper" />
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
+ 
+</beans>

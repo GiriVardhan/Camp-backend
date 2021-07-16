@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+                        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<security:global-method-security pre-post-annotations="enabled">
+		<security:expression-handler ref="expressionHandler" />
+	</security:global-method-security>
+
+	<!-- Swagger-ui secured -->
+	<security:http create-session="stateless" entry-point-ref="SwaggerLoginEntry">
+		<security:cors configuration-source-ref="CocoaOwlCorsConfigurationSource"/>	
+		<security:csrf disabled="true"/>
+		<security:custom-filter ref="SwaggerUIAuthFilter" before="FORM_LOGIN_FILTER"/>
+		<security:headers>
+			<security:frame-options policy="SAMEORIGIN"/>
+		</security:headers>
+		
+		<security:intercept-url pattern="/login" access="permitAll" />
+		<security:intercept-url pattern="/favicon.ico" access="permitAll" />
+		<security:intercept-url pattern="**/*.html" access="permitAll" />
+		<security:intercept-url pattern="**/*.css" access="permitAll" />
+		<security:intercept-url pattern="**/*.js" access="permitAll" />
+		<security:intercept-url pattern="/front/**" access="permitAll" />
+		<security:intercept-url pattern="/resource/**" access="permitAll" /> 
+		<security:intercept-url pattern="/app/file/submit" access="permitAll" />
+		
+		<security:intercept-url pattern="/app/swagger/swaggerloginpage.html" access="permitAll"/>
+		<security:intercept-url pattern="/app/swagger/swaggerlogin" access="permitAll"/>
+		<security:intercept-url pattern="/app/*/swagger-ui.html" access="isAuthenticated()"/>
+		<security:intercept-url pattern="/app/*/user/home" access="isAuthenticated()" />
+		<security:intercept-url pattern="/app/*/exportable" access="ROLE_USER" />		
+		<security:intercept-url pattern="/app/*/login" access="isAuthenticated()" />
+		<security:intercept-url pattern="/app/*/jwtUserAuthentication" access="permitAll"/>
+		<security:intercept-url pattern="/app/*/signup" access="permitAll" />
+		<security:intercept-url pattern="/app/**" access="isAuthenticated()" />
+		
+		<security:intercept-url pattern="/auth/**" access="permitAll" />
+		
+		<security:custom-filter ref="switchUserProcessingFilter" position="SWITCH_USER_FILTER" />
+		
+	</security:http>
+
+	<bean id="SwaggerUIAuthFilter" class="com.jbent.peoplecentral.filter.SwaggerUIAuthFilter">
+		<constructor-arg>
+			<ref bean="authManager"/>
+		</constructor-arg>
+		<constructor-arg>
+			<ref bean="JwtTokenUtil"/>
+		</constructor-arg>
+	</bean>
+	<bean id="CocoaOwlCorsConfigurationSource" class="com.jbent.peoplecentral.javaconfig.CocoaOwlCorsConfigurationSource"></bean>
+	<bean id="ApplicationAuthFilter" class="com.jbent.peoplecentral.filter.ApplicationAuthFilter">
+		<constructor-arg>
+			<ref bean="JwtTokenUtil"/>
+		</constructor-arg>
+	</bean>
+	<bean id="SwaggerLoginEntry" class="com.jbent.peoplecentral.filter.SwaggerLoginEntry"></bean>
+	<bean id="JwtTokenUtil" class="com.jbent.peoplecentral.security.jwt.JwtTokenUtil"></bean>
+ 	<bean id="jwtAuthenticationFilter" class="com.jbent.peoplecentral.security.jwt.JwtAuthenticationTokenFilter"> 
+   		 <property name="authenticationManager" ref="authManager" />
+   	</bean>
+
+	<security:authentication-manager  alias="authManager">
+		<security:authentication-provider >
+			<security:password-encoder hash="md5" />
+			<security:jdbc-user-service id="uds" users-by-username-query="SELECT * FROM authenticate(?)" data-source-ref="dataSource" />
+		</security:authentication-provider>
+	</security:authentication-manager>
+
+	<!-- Automatically receives AuthenticationEvent messages -->
+	<bean id="loggerListener" class="org.springframework.security.authentication.event.LoggerListener" />
+	<bean id="switchUserProcessingFilter" class=" com.jbent.peoplecentral.permission.CustomSwitchUserFilter" autowire="byType">
+		<property name="switchUserUrl"><value>/j_spring_security_switch_user</value></property>
+		<property name="exitUserUrl"><value>/j_spring_security_exit_user</value></property>
+		<property name="targetUrl" value="/app/admin/switchUser" />
+	</bean>
+
+	<bean id="expressionHandler" class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
+		<property name="permissionEvaluator" ref="permissionEvaluator" />
+	</bean>
+
+	<bean id="permissionEvaluator" class="com.jbent.peoplecentral.permission.SpringSecurityACLPermissionEvaluator">
+		<constructor-arg ref="aclService" />
+		<property name="objectIdentityRetrievalStrategy">
+			<bean class="com.jbent.peoplecentral.permission.SpringSecurityACLStrategy" />
+		</property>
+	</bean>
+	
+   	<bean id="basicAuthenticationFilter" class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
+  		<constructor-arg ref="authManager"/>
+		<constructor-arg ref="authenticationEntryPoint"/>
+	</bean>
+
+	<bean id="authenticationEntryPoint" class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint">
+ 			<property name="realmName" value="CocoaOwl"/>
+	</bean>  
+    
+  	<bean id="springSecurityFilterChain" class="org.springframework.security.web.FilterChainProxy">
+    	<security:filter-chain-map request-matcher="ant">
+        	<security:filter-chain pattern="/**" filters="securityContextPersistenceFilter,digestProcessingFilter,exceptionTranslationFilter,filterSecurityInterceptor" />
+		</security:filter-chain-map>
+   	</bean>
+
+		<!--     <bean id="httpSessionContextIntegrationFilter" class="org.springframework.security.web.context.HttpSessionContextIntegrationFilter" /> -->
+    	<bean id="accessDecisionManager" class="org.springframework.security.access.vote.UnanimousBased">
+        	<constructor-arg>
+            	<list>
+           	     <bean class="org.springframework.security.access.vote.RoleVoter" />
+           	     <bean class="org.springframework.security.access.vote.AuthenticatedVoter" />
+           	 </list>
+        	</constructor-arg>
+    	</bean>
+    	<bean id="securityContextPersistenceFilter" class="org.springframework.security.web.context.SecurityContextPersistenceFilter"/>
+
+    	<bean id="exceptionTranslationFilter"  class="org.springframework.security.web.access.ExceptionTranslationFilter">
+        	<constructor-arg ref="authenticationEntryPoint" />
+    	</bean>
+
+   
+   		 <!--<bean id="exceptionTranslationFilter"  class="org.springframework.security.web.access.ExceptionTranslationFilter">
+       	 <property name="authenticationEntryPoint"  ref="digestProcessingFilterEntryPoint" />
+   	    </bean>
+    
+	
+	
+	
+
+
+	--><!-- ========= ACL SERVICE  DEFINITIONS ========= -->
+
+	
+	<bean id="aclCache" class="org.springframework.security.acls.domain.EhCacheBasedAclCache">
+		<constructor-arg>
+			<bean class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+			<property name="cacheManager">
+				<bean class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"/>
+			</property>
+			<property name="cacheName" value="aclCache"/>
+			</bean>
+		</constructor-arg>
+		<constructor-arg>
+			<bean class="org.springframework.security.acls.domain.DefaultPermissionGrantingStrategy">
+				<constructor-arg>
+					<bean class="org.springframework.security.acls.domain.ConsoleAuditLogger"/>
+				</constructor-arg>
+			</bean>
+		</constructor-arg>
+		<constructor-arg>
+			<bean class="org.springframework.security.acls.domain.AclAuthorizationStrategyImpl">
+				<constructor-arg>
+					<list>
+						<bean class="org.springframework.security.core.authority.SimpleGrantedAuthority">
+							<constructor-arg value="ROLE_ACL_ADMIN"/>
+						</bean>
+					</list>
+				</constructor-arg>
+			</bean>
+		</constructor-arg>
+	</bean>
+
+	<bean id="lookupStrategy"
+		class="org.springframework.security.acls.jdbc.BasicLookupStrategy">
+		<constructor-arg ref="dataSource" />
+		<constructor-arg ref="aclCache" />
+		<constructor-arg>
+			<bean
+				class="org.springframework.security.acls.domain.AclAuthorizationStrategyImpl">
+				<constructor-arg>
+					<list>
+						<bean class="org.springframework.security.core.authority.SimpleGrantedAuthority">
+							<constructor-arg value="ROLE_ADMINISTRATOR" />
+						</bean>
+						<bean class="org.springframework.security.core.authority.SimpleGrantedAuthority">
+							<constructor-arg value="ROLE_ADMINISTRATOR" />
+						</bean>
+						<bean class="org.springframework.security.core.authority.SimpleGrantedAuthority">
+							<constructor-arg value="ROLE_ADMINISTRATOR" />
+						</bean>
+					</list>
+				</constructor-arg>
+			</bean>
+		</constructor-arg>
+		<constructor-arg>
+			<bean class="org.springframework.security.acls.domain.ConsoleAuditLogger" />
+		</constructor-arg>
+	</bean>
+
+	<bean id="aclService"
+		class="com.jbent.peoplecentral.permission.SpringSecurityCustomAclService">
+		<constructor-arg ref="dataSource" />
+		<constructor-arg ref="lookupStrategy" />
+		<constructor-arg ref="aclCache" />
+		<property name="classIdentityQuery"
+			value="select currval('client_template.acl_class_id_seq')" />
+		<property name="sidIdentityQuery"
+			value="select currval('client_template.acl_sid_id_seq')" />
+	</bean>
+
+		
+
+
+</beans>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd           
+		   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<!-- Activates annotation-based bean configuration -->
+	<context:annotation-config />
+
+	<!-- Scans for application @Components to deploy -->
+	<context:component-scan
+		base-package="com.jbent.peoplecentral.*" />
+
+	<!--
+		<bean id="cacheHelper"
+		class="com.jbent.peoplecentral.jbosscache.CacheHelper"
+		init-method="init" destroy-method="destroy"/>
+	-->
+	<bean id="multipartResolver"
+        class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="uploadTempDir" value="mypath"/>
+	</bean>
+
+	<!-- Application Message Bundle -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="/WEB-INF/messages/messages" />
+		<property name="cacheSeconds" value="0" />
+	</bean>
+
+	<bean id="permissionManager"
+		class="com.jbent.peoplecentral.permission.SpringSecurityPermissionManager" />
+	
+	<bean id="objectIdentityRetrievalStrategy"
+		class="com.jbent.peoplecentral.permission.SpringSecurityACLStrategy" />
+	
+	<bean id="entityTypeDAO" class="com.jbent.peoplecentral.model.dao.EntityTypeDAOPGImpl"/>	
+	<bean id="entityTypeManager" class="com.jbent.peoplecentral.model.manager.EntityTypeManagerImpl"/>
+	
+	<bean id="entityDAO" class="com.jbent.peoplecentral.model.dao.EntityDAOPGImpl"/>	
+	<bean id="entityManager" class="com.jbent.peoplecentral.model.manager.EntityManagerImpl">
+		
+	</bean>
+	
+	<bean id="adminDAO" class="com.jbent.peoplecentral.model.dao.AdminDAOPGImpl"/>
+	<bean id="adminManager" class="com.jbent.peoplecentral.model.manager.AdminManagerImpl"/>
+	
+	
+	
+	
+	<!--<bean id="exportable" class="com.jbent.peoplecentral.model.pojo.Entity">
+		<security:intercept-methods>
+            <security:protect
+                method="com.jbent.peoplecentral.model.pojo.Exportable.getRoles" access="ROLE_MANAGER" />
+        </security:intercept-methods>
+	</bean> 
+-->
+	<bean id="entityTypeValidator" class="com.jbent.peoplecentral.controller.validator.EntityTypeValidator"/>
+	<bean id="attributeValidator" class="com.jbent.peoplecentral.controller.validator.AttributeValidator"/>
+	<bean id="attributeValueStorageValidator" class="com.jbent.peoplecentral.controller.validator.AttributeValueStorageValidator"/>
+    <bean id="entityValidator" class="com.jbent.peoplecentral.controller.validator.EntityValidator"/>
+    
+     <bean id="fileManager" class="com.jbent.peoplecentral.model.manager.FileManagerImpl"/>
+	 <bean id="dynamicJasperManager" class="com.jbent.peoplecentral.model.manager.DynamicJasperManagerImpl"/>
+	 <bean id="importManager" class="com.jbent.peoplecentral.model.manager.ImportManagerImpl">
+	 	<property name="maxIntervals" value="100"></property>
+	 </bean>
+	 <bean id="socialManager" class="com.jbent.peoplecentral.model.manager.SocialManagerImpl"/> 
+	 <bean id="loginUserManager" class="com.jbent.peoplecentral.model.manager.LoginUserManagerImpl"/>
+	<!--
+		Imports the configurations of the different infrastructure systems of
+		the application
+	-->
+	<import resource="data-access-config.xml" />
+	<import resource="webmvc-config.xml" />
+	<import resource="security-config.xml" />
+	<import resource="testclient-servlet.xml" />
+	<!-- <import resource="aop-config.xml" /> <import resource="remote-servlet.xml" />  -->
+
+
+	<!-- <bean id="logger"
+		class="org.springframework.beans.factory.config.CommonsLogFactoryBean">
+		<property name="logName" value="log" />
+	</bean>
+ -->
+	<!-- JMX --> 
+	<bean id="exporter" class="org.springframework.jmx.export.MBeanExporter" >
+		<property name="beans">
+			<map>
+				<entry key="cocoowl:name=logger" value-ref="log4jMBean" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="log4jMBean" class="com.jbent.peoplecentral.jmx.mbean.Log4jMBean" />
+	
+	<!--
+		<import resource="aop-config.xml" /> <import
+		resource="jboss-cache-config.xml" /> <import
+		resource="webflow-config.xml" />
+	-->
+	<!-- Marshalling 
+	<bean id="xstreamMarshaller" class="org.springframework.oxm.xstream.XStreamMarshaller">
+        <property name="aliases">
+            <props>
+                <prop key="Flight">org.springframework.oxm.xstream.Flight</prop>
+            </props>
+        </property>
+    </bean>
+	--> 
+
+	<bean id="velocityManager" class="com.jbent.peoplecentral.velocity.VelocityManagerImpl"/>
+	<bean id="templateManager" class="com.jbent.peoplecentral.template.TemplateManagerThymeleafImpl"/>
+		
+    <bean id="propertyConfigurer" 
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	   <property name="locations">
+	       <list>
+	           <value>/WEB-INF/properties/email.properties</value>
+	           <value>/WEB-INF/properties/application.properties</value>
+	       </list>
+	   </property>
+	</bean> 
+	<!-- Email Configuration --> 
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="${email.host}" />
+		<property name="port" value="${email.port}" />
+		<property name="username" value="${email.username}" />
+		<property name="password" value="${email.password}" />
+			
+		<property name="javaMailProperties">
+		   <props>
+		   		  <prop key="mail.transport.protocol">smtp</prop>
+	       	      <prop key="mail.smtp.auth">true</prop>
+	       	      <prop key="mail.smtp.starttls.enable">true</prop>
+	       	   </props>
+		</property>
+	</bean>
+	
+	<bean id="customEmail" class="com.jbent.peoplecentral.email.CustomEmail">
+		<property name="mailSender" ref="mailSender" />
+	</bean> 
+	
+		
+	
+	</beans>
